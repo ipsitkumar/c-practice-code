@@ -1,10 +1,69 @@
 #include <stdio.h>
 
+// nextPowOf2Num
+//      returns the next power of 2 integer. 
+int nextPowOf2Num(int n) {
+    n = n - 1;
+    while ((n & (n - 1))) {
+        n = n - 1;
+    }
+    return n << 1;
+}
+
+// bitflipsNeeded:
+//      returns the number of bits needed to be flipped.
+int bitflipsNeeded(int n1, int n2) {
+    int n, count = 0;
+    n = n1 ^ n2;
+    // Brian Karnighan's Algo to count set bit.
+    while (n) {
+        count++;
+        n = n & ( n -1);
+    }
+    return count;
+}
+
+// bitwiseABS
+// returns the absolute value of an int.
+int bitwiseABS(int n) {
+    int mask = n >> sizeof(int) * 8 - 1;
+    return (n + mask) ^ mask;
+}
+// letterPosInAlphabet:
+// returns the position of character in the alphabet.
+int  letterPosInAlphabet(char c) {
+    return c & 31;
+}
+
+// toggleCase:
+//  prints given string toggling case of each char.
+
+void toggleCase(char *str) {
+    char *p = str;
+
+    while (*p != '\0') {
+        if ( *p < 'a') {
+            printf("%c", (*p | ' '));
+        } else {
+            printf("%c", (*p & '_'));
+        }
+
+        // printf("%c", (*p ^ ' ')); // This can be used for inverting the case.
+        p++;
+    }
+}
 // findParity:
 //      returns 1: for odd parity
 //              0: for even parity.
 int findParity(int n) {
-
+    int paritycnt = 0;
+    while(n) {
+        if ( n & 0x1) {
+            paritycnt = !paritycnt;
+        }
+        n = n >> 1;
+    }
+    return paritycnt;
 } 
 
 // getRightMostSetBitPos:
@@ -62,7 +121,7 @@ void printBits(int n) {
     return;
 }
 
-// checkNthBit:
+// toggleBit:
 //      returns n with position bit toggled.
 //              -1: if pos supplied is more than 32
 int toggleBit(int n, int pos) {
@@ -144,9 +203,6 @@ int oddEven(int n) {
 }
 
 int main() {
-    //int num = 536870912;
-    int num = -88;
-    printBits(num);
-    printf("Right most bit of %d is %d\n", num, getRightMostSetBitPos(num));
+    printf("Next power of 2 number for 33 is: %d\n", nextPowOf2Num(33));
     return 0;
 }
